@@ -1,17 +1,25 @@
 import { Injectable } from '@nestjs/common';
-import { MoviesRepository } from '@/movies/movies.repository';
-import type { Movie } from '@prisma/client';
-import { CreateMovieInput } from '@/movies/movies.model';
+
+import { MoviesRepository } from './movies.repository';
+import { CreateMovieInput, Movie, UpdateMovieInput } from './movies.model';
 
 @Injectable()
 export class MoviesService {
   constructor(private repository: MoviesRepository) {}
 
   async getMovies(): Promise<Movie[]> {
-    return await this.repository.getMovies({});
+    return this.repository.getMovies({});
   }
 
   async createMovie(data: CreateMovieInput) {
     return this.repository.createMovie({ data });
+  }
+
+  async updateMovie(id: number, data: UpdateMovieInput) {
+    return this.repository.updateMovie({ where: { id }, data });
+  }
+
+  async deleteMovie(id: number) {
+    return this.repository.deleteMovie({ where: { id } });
   }
 }

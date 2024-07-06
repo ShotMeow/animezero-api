@@ -5,8 +5,8 @@ export abstract class BaseModel {
   id: number;
 
   @Field(() => GraphQLISODateTime)
-  updatedAt: string;
+  updatedAt: Date;
 
   @Field(() => GraphQLISODateTime)
-  createdAt: string;
+  createdAt: Date;
 }
