@@ -106,6 +106,27 @@ CREATE TABLE "countries" (
     CONSTRAINT "countries_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateIndex
+CREATE UNIQUE INDEX "users_name_key" ON "users"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "users_phone_key" ON "users"("phone");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "movies_title_key" ON "movies"("title");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "tags_name_key" ON "tags"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "genres_name_key" ON "genres"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "countries_name_key" ON "countries"("name");
+
 -- AddForeignKey
 ALTER TABLE "recently_viewed_movies" ADD CONSTRAINT "recently_viewed_movies_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 

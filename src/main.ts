@@ -14,10 +14,9 @@ async function bootstrap() {
     new FastifyAdapter(),
   );
   app.enableCors();
-
   await app.listen(APP_PORT, '0.0.0.0');
 
   return app.getUrl();
 }
 
-bootstrap().then((url) => console.log(`Server running on ${url}:${APP_PORT}`));
+bootstrap().then((url) => console.log(`Server running on ${url}`));

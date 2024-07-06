@@ -15,10 +15,10 @@ datasource db {
 
 model User {
   id        Int      @id @default(autoincrement())
-  name      String
+  name      String   @unique
   avatarUrl String?  @map("avatar_url")
-  email     String?
-  phone     String?
+  email     String?  @unique
+  phone     String?  @unique
   password  String
   updatedAt DateTime @updatedAt @map("updated_at")
   createdAt DateTime @default(now()) @map("created_at")
@@ -68,7 +68,7 @@ model FavoriteMovie {
 
 model Movie {
   id          Int      @id @default(autoincrement())
-  title       String
+  title       String   @unique
   description String
   videoUrl    String   @map("video_url")
   pictureUrl  String   @map("picture_url")
@@ -95,7 +95,7 @@ model Movie {
 
 model Tag {
   id        Int      @id @default(autoincrement())
-  name      String
+  name      String   @unique
   updatedAt DateTime @updatedAt @map("updated_at")
   createdAt DateTime @default(now()) @map("created_at")
 
@@ -120,7 +120,7 @@ model TagsOnMovies {
 
 model Genre {
   id        Int      @id @default(autoincrement())
-  name      String
+  name      String   @unique
   updatedAt DateTime @updatedAt @map("updated_at")
   createdAt DateTime @default(now()) @map("created_at")
 
@@ -145,7 +145,7 @@ model GenresOnMovies {
 
 model Country {
   id        Int      @id @default(autoincrement())
-  name      String
+  name      String   @unique
   updatedAt DateTime @updatedAt @map("updated_at")
   createdAt DateTime @default(now()) @map("created_at")
 
