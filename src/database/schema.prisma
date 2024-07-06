@@ -1,0 +1,155 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  avatarUrl String?  @map("avatar_url")
+  email     String?
+  phone     String?
+  password  String
+  updatedAt DateTime @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  recentlyViewedMovies RecentlyViewedMovie[]
+  viewedMovies         ViewedMovie[]
+  favoriteMovies       FavoriteMovie[]
+
+  @@map("users")
+}
+
+model RecentlyViewedMovie {
+  userId    Int      @map("user_id")
+  movieId   Int      @map("movie_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user  User  @relation(fields: [userId], references: [id])
+  movie Movie @relation(fields: [movieId], references: [id])
+
+  @@id([userId, movieId])
+  @@map("recently_viewed_movies")
+}
+
+model ViewedMovie {
+  userId    Int      @map("user_id")
+  movieId   Int      @map("movie_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user  User  @relation(fields: [userId], references: [id])
+  movie Movie @relation(fields: [movieId], references: [id])
+
+  @@id([userId, movieId])
+  @@map("viewed_movies")
+}
+
+model FavoriteMovie {
+  userId    Int      @map("user_id")
+  movieId   Int      @map("movie_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user  User  @relation(fields: [userId], references: [id])
+  movie Movie @relation(fields: [movieId], references: [id])
+
+  @@id([userId, movieId])
+  @@map("favorite_movies")
+}
+
+model Movie {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  videoUrl    String   @map("video_url")
+  pictureUrl  String   @map("picture_url")
+  ageRating   String?  @map("age_rating")
+  rating      Float?
+  status      String?
+  countryId   Int?     @map("country_id")
+  year        Int?
+  type        String
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  tags                 TagsOnMovies[]
+  genres               GenresOnMovies[]
+  country              Country?              @relation(fields: [countryId], references: [id])
+  recentlyViewedMovies RecentlyViewedMovie[]
+  viewedMovies         ViewedMovie[]
+  favoriteMovies       FavoriteMovie[]
+
+  @@map("movies")
+}
+
+// Tags
+
+model Tag {
+  id        Int      @id @default(autoincrement())
+  name      String
+  updatedAt DateTime @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  movies TagsOnMovies[]
+
+  @@map("tags")
+}
+
+model TagsOnMovies {
+  movieId   Int      @map("movie_id")
+  tagId     Int      @map("tag_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  movie Movie @relation(fields: [movieId], references: [id])
+  tag   Tag   @relation(fields: [tagId], references: [id])
+
+  @@id([movieId, tagId])
+  @@map("tags_movies")
+}
+
+// Genres
+
+model Genre {
+  id        Int      @id @default(autoincrement())
+  name      String
+  updatedAt DateTime @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  movies GenresOnMovies[]
+
+  @@map("genres")
+}
+
+model GenresOnMovies {
+  movieId   Int      @map("movie_id")
+  genreId   Int      @map("genre_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  movie Movie @relation(fields: [movieId], references: [id])
+  genre Genre @relation(fields: [genreId], references: [id])
+
+  @@id([movieId, genreId])
+  @@map("genres_movies")
+}
+
+// Countries
+
+model Country {
+  id        Int      @id @default(autoincrement())
+  name      String
+  updatedAt DateTime @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  movie Movie[]
+
+  @@map("countries")
+}
