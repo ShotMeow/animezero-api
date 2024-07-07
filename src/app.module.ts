@@ -5,6 +5,8 @@ import { MoviesModule } from './movies/movies.module';
 import { AuthModule } from '@/auth/auth.module';
 import { AppController } from '@/app.controller';
 import { CountriesModule } from './countries/countries.module';
+import { TagsModule } from './tags/tags.module';
+import { GenresModule } from '@/genres/genres.module';
 
 @Module({
   imports: [
@@ -15,6 +17,8 @@ import { CountriesModule } from './countries/countries.module';
     MoviesModule,
     AuthModule,
     CountriesModule,
+    TagsModule,
+    GenresModule,
   ],
   controllers: [AppController],
   providers: [],

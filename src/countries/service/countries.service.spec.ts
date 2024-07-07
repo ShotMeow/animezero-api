@@ -59,7 +59,7 @@ describe(`Countries Service`, () => {
         },
         {
           id: 2,
-          name: 'Russia',
+          name: 'Japan',
           updatedAt: new Date(),
           createdAt: new Date(),
         },

@@ -3,7 +3,7 @@ import { mockDeep } from 'jest-mock-extended';
 
 import { CountriesService } from '../service/countries.service';
 import { CountriesResolver } from './countries.resolver';
-import { Country } from '../countries.model';
+import type { Country } from '../countries.model';
 
 describe(`Countries Resolver`, () => {
   let mockedCountriesService: CountriesService;
@@ -59,7 +59,7 @@ describe(`Countries Resolver`, () => {
         },
         {
           id: 2,
-          name: 'Russia',
+          name: 'Japan',
           updatedAt: new Date(),
           createdAt: new Date(),
         },

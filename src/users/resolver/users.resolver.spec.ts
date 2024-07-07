@@ -1,9 +1,9 @@
 import { Test } from '@nestjs/testing';
 import { mockDeep } from 'jest-mock-extended';
 
-import { User } from '../users.model';
 import { UsersService } from '../service/users.service';
 import { UsersResolver } from './users.resolver';
+import type { User } from '../users.model';
 
 describe(`Users Resolver`, () => {
   let mockedUsersService: UsersService;

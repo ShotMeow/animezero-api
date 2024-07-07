@@ -3,7 +3,7 @@ import { mockDeep } from 'jest-mock-extended';
 
 import { MoviesService } from '../service/movies.service';
 import { MoviesResolver } from './movies.resolver';
-import { Movie } from '../movies.model';
+import type { Movie } from '../movies.model';
 
 describe(`Movies Resolver`, () => {
   let mockedMoviesService: MoviesService;
