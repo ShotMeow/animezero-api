@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import type { Movie, Prisma } from '@prisma/client';
+
 import { PrismaService } from '@/database/prisma.service';
 
 @Injectable()
@@ -40,6 +41,7 @@ export class MoviesRepository {
     where: Prisma.MovieWhereUniqueInput;
   }): Promise<Movie> {
     const { where } = params;
+
     return this.prisma.movie.delete({ where });
   }
 }

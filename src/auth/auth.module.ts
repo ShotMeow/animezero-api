@@ -5,8 +5,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { UsersModule } from '@/users/users.module';
 import { PrismaModule } from '@/database/prisma.module';
 
-import { AuthService } from './auth.service';
-import { AuthResolver } from './auth.resolver';
+import { AuthService } from './service/auth.service';
+import { AuthResolver } from './resolver/auth.resolver';
 import { JwtStrategy } from '@/auth/strategies/jwt.strategy';
 
 @Module({

@@ -1,6 +1,6 @@
 {
   "name": "animezero-api",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "API release for online anime cinema developed on Nest.js",
   "author": "Kai Goldman",
   "repository": {
@@ -18,7 +18,9 @@
     "migrate:dev": "prisma migrate dev",
     "migrate:deploy": "prisma migrate deploy",
     "prisma:studio": "prisma studio",
-    "prisma:generate": "prisma generate"
+    "prisma:generate": "prisma generate",
+    "test": "jest --watch",
+    "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
     "@apollo/server": "^4.10.4",
@@ -55,7 +57,8 @@
     "eslint": "^8.42.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
-    "jest": "^29.5.0",
+    "jest": "^29.7.0",
+    "jest-mock-extended": "^3.0.7",
     "passport-jwt": "^4.0.1",
     "pre-commit": "^1.2.2",
     "prettier": "^3.0.0",
@@ -71,5 +74,25 @@
   "pre-commit": [
     "lint",
     "format"
-  ]
+  ],
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "**/*.(t|j)s"
+    ],
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "^@/(.*)": "<rootDir>/$1"
+    }
+  }
 }

@@ -6,33 +6,22 @@ import {
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 
-import { UsersService } from '@/users/users.service';
-import { PrismaService } from '@/database/prisma.service';
-
-import { SignInInput, SignUpInput } from './auth.model';
+import { UsersService } from '@/users/service/users.service';
+import { SignInInput, SignUpInput } from '../auth.model';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
-    private prisma: PrismaService,
     private jwtService: JwtService,
   ) {}
 
   async getAuthUser(id: number) {
-    return this.prisma.user.findUnique({
-      where: {
-        id,
-      },
-    });
+    return this.usersService.getUserById(id);
   }
 
   async signIn(data: SignInInput) {
-    const user = await this.prisma.user.findUnique({
-      where: {
-        name: data.name,
-      },
-    });
+    const user = await this.usersService.getUserByName(data.name);
 
     if (!user) {
       throw new NotFoundException('Неверный E-mail или пароль');

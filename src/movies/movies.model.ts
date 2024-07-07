@@ -1,5 +1,6 @@
 import { Field, Float, InputType, Int, ObjectType } from '@nestjs/graphql';
 import type { Movie as MovieModel } from '@prisma/client';
+
 import { BaseModel } from '@/utils/base.model';
 
 @ObjectType()

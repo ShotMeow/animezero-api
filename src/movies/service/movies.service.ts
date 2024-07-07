@@ -1,7 +1,11 @@
 import { Injectable } from '@nestjs/common';
 
-import { MoviesRepository } from './movies.repository';
-import { CreateMovieInput, Movie, UpdateMovieInput } from './movies.model';
+import { MoviesRepository } from '../repository/movies.repository';
+import type {
+  CreateMovieInput,
+  Movie,
+  UpdateMovieInput,
+} from '../movies.model';
 
 @Injectable()
 export class MoviesService {

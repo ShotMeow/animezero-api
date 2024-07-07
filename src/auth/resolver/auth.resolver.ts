@@ -1,11 +1,11 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-
-import { Response, SignInInput, SignUpInput } from './auth.model';
-import { AuthService } from './auth.service';
-import { User } from '@/users/users.model';
-import { AuthUser } from '@/auth/decorators/user.decorator';
 import { UseGuards } from '@nestjs/common';
-import { GqlAuthGuard } from '@/auth/guards/gqlAuth.guard';
+
+import { User } from '@/users/users.model';
+import { Response, SignInInput, SignUpInput } from '../auth.model';
+import { AuthService } from '../service/auth.service';
+import { AuthUser } from '../decorators/user.decorator';
+import { GqlAuthGuard } from '../guards/gqlAuth.guard';
 
 @Resolver()
 export class AuthResolver {
@@ -14,7 +14,6 @@ export class AuthResolver {
   @Query(() => User)
   @UseGuards(GqlAuthGuard)
   whoAmI(@AuthUser() user: User) {
-    console.log(user);
     return this.authService.getAuthUser(user.id);
   }
 

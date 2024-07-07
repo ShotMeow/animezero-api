@@ -1,5 +1,6 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import type { User as UserModel } from '@prisma/client';
+
 import { BaseModel } from '@/utils/base.model';
 
 @ObjectType()
@@ -8,13 +9,13 @@ export class User extends BaseModel {
   name: UserModel['name'];
 
   @Field(() => String, { nullable: true })
-  avatarUrl: UserModel['avatarUrl'];
+  avatarUrl?: UserModel['avatarUrl'];
 
   @Field(() => String, { nullable: true })
-  email: UserModel['email'];
+  email?: UserModel['email'];
 
   @Field(() => String, { nullable: true })
-  phone: UserModel['phone'];
+  phone?: UserModel['phone'];
 }
 
 @InputType()
