@@ -4,6 +4,7 @@ import { ApolloDriver, type ApolloDriverConfig } from '@nestjs/apollo';
 import { MoviesModule } from './movies/movies.module';
 import { AuthModule } from '@/auth/auth.module';
 import { AppController } from '@/app.controller';
+import { CountriesModule } from './countries/countries.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { AppController } from '@/app.controller';
     }),
     MoviesModule,
     AuthModule,
+    CountriesModule,
   ],
   controllers: [AppController],
   providers: [],

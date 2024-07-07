@@ -21,6 +21,14 @@ describe(`Users Resolver`, () => {
     usersResolver = moduleRef.get(UsersResolver);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('Should be defined', () => {
+    expect(usersResolver).toBeDefined();
+  });
+
   describe('Update user', () => {
     it('Should update a user', async () => {
       const mockedUser: User = {

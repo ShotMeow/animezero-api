@@ -25,6 +25,37 @@ describe(`Movies Resolver`, () => {
     jest.clearAllMocks();
   });
 
+  it('Should be defined', () => {
+    expect(moviesResolver).toBeDefined();
+  });
+
+  describe('Get movie by unique input', () => {
+    it('Should get a film by id', async () => {
+      const mockedMovie: Movie = {
+        id: 1,
+        title: 'Movie title',
+        description: 'Movie description',
+        videoUrl: 'https://animezero.ru/videos/videoUrl.mp4',
+        pictureUrl: 'https://animezero.ru/videos/pictureUrl.webp',
+        ageRating: '6+',
+        rating: 9.5,
+        status: 'Ongoing',
+        countryId: 1,
+        year: 2005,
+        type: 'Film',
+        updatedAt: new Date(),
+        createdAt: new Date(),
+      };
+      (mockedMoviesService.getMovieById as jest.Mock).mockResolvedValue(
+        mockedMovie,
+      );
+
+      const getMovieById = (): Promise<Movie> => moviesResolver.getMovieById(1);
+
+      await expect(getMovieById()).resolves.toBe(mockedMovie);
+    });
+  });
+
   describe('Get Movies', () => {
     it('Should get a list of Movies', async () => {
       const mockedMoviesList: Movie[] = [

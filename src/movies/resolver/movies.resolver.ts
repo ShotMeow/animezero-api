@@ -7,13 +7,18 @@ import { CreateMovieInput, Movie, UpdateMovieInput } from '../movies.model';
 export class MoviesResolver {
   constructor(private readonly moviesService: MoviesService) {}
 
+  @Query(() => Movie)
+  async getMovieById(@Args('id') id: number): Promise<Movie> {
+    return this.moviesService.getMovieById(id);
+  }
+
   @Query(() => [Movie])
-  async getMovies() {
+  async getMovies(): Promise<Movie[]> {
     return this.moviesService.getMovies();
   }
 
   @Mutation(() => Movie)
-  async createMovie(@Args('movie') data: CreateMovieInput) {
+  async createMovie(@Args('movie') data: CreateMovieInput): Promise<Movie> {
     return this.moviesService.createMovie(data);
   }
 
@@ -21,12 +26,12 @@ export class MoviesResolver {
   async updateMovie(
     @Args('id') id: number,
     @Args('movie') data: UpdateMovieInput,
-  ) {
+  ): Promise<Movie> {
     return this.moviesService.updateMovie(id, data);
   }
 
   @Mutation(() => Movie)
-  async deleteMovie(@Args('id') id: number) {
+  async deleteMovie(@Args('id') id: number): Promise<Movie> {
     return this.moviesService.deleteMovie(id);
   }
 }

@@ -2,7 +2,7 @@ import { Test } from '@nestjs/testing';
 import type { PrismaClient } from '@prisma/client';
 import { mockDeep } from 'jest-mock-extended';
 
-import { PrismaService } from '@/database/prisma.service';
+import { PrismaService } from '@/database/service/prisma.service';
 import { UsersRepository } from './users.repository';
 import { User } from '../users.model';
 
@@ -20,6 +20,14 @@ describe(`Users Repository`, () => {
 
     mockedPrismaService = moduleRef.get(PrismaService);
     usersRepository = moduleRef.get(UsersRepository);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('Should be defined', () => {
+    expect(usersRepository).toBeDefined();
   });
 
   describe('Get user by unique input', () => {

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import type { Prisma, User } from '@prisma/client';
 
-import { PrismaService } from '@/database/prisma.service';
+import { PrismaService } from '@/database/service/prisma.service';
 
 @Injectable()
 export class UsersRepository {

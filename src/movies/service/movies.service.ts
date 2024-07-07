@@ -11,6 +11,14 @@ import type {
 export class MoviesService {
   constructor(private repository: MoviesRepository) {}
 
+  async getMovieById(id: number): Promise<Movie> {
+    return this.repository.getMovieByUniqueInput({
+      where: {
+        id,
+      },
+    });
+  }
+
   async getMovies(): Promise<Movie[]> {
     return this.repository.getMovies({});
   }

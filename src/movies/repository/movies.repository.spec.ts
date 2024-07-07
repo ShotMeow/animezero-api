@@ -2,7 +2,7 @@ import { Test } from '@nestjs/testing';
 import type { PrismaClient } from '@prisma/client';
 import { mockDeep } from 'jest-mock-extended';
 
-import { PrismaService } from '@/database/prisma.service';
+import { PrismaService } from '@/database/service/prisma.service';
 import { MoviesRepository } from './movies.repository';
 import { Movie } from '../movies.model';
 
@@ -24,6 +24,68 @@ describe(`Movies Repository`, () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+  });
+
+  it('Should be defined', () => {
+    expect(moviesRepository).toBeDefined();
+  });
+
+  describe('Get movie by unique input', () => {
+    it('Should get a film by id', async () => {
+      const mockedMovie: Movie = {
+        id: 1,
+        title: 'Movie title',
+        description: 'Movie description',
+        videoUrl: 'https://animezero.ru/videos/videoUrl.mp4',
+        pictureUrl: 'https://animezero.ru/videos/pictureUrl.webp',
+        ageRating: '6+',
+        rating: 9.5,
+        status: 'Ongoing',
+        countryId: 1,
+        year: 2005,
+        type: 'Film',
+        updatedAt: new Date(),
+        createdAt: new Date(),
+      };
+      (mockedPrismaService.movie.findUnique as jest.Mock).mockResolvedValue(
+        mockedMovie,
+      );
+
+      const getMovieById = (): Promise<Movie> =>
+        moviesRepository.getMovieByUniqueInput({
+          where: { id: 1 },
+        });
+
+      await expect(getMovieById()).resolves.toBe(mockedMovie);
+    });
+
+    it('Should get a film by title', async () => {
+      const mockedMovie: Movie = {
+        id: 1,
+        title: 'Movie title',
+        description: 'Movie description',
+        videoUrl: 'https://animezero.ru/videos/videoUrl.mp4',
+        pictureUrl: 'https://animezero.ru/videos/pictureUrl.webp',
+        ageRating: '6+',
+        rating: 9.5,
+        status: 'Ongoing',
+        countryId: 1,
+        year: 2005,
+        type: 'Film',
+        updatedAt: new Date(),
+        createdAt: new Date(),
+      };
+      (mockedPrismaService.movie.findUnique as jest.Mock).mockResolvedValue(
+        mockedMovie,
+      );
+
+      const getMovieByTitle = (): Promise<Movie> =>
+        moviesRepository.getMovieByUniqueInput({
+          where: { title: 'Movie title' },
+        });
+
+      await expect(getMovieByTitle()).resolves.toBe(mockedMovie);
+    });
   });
 
   describe('Get Movies', () => {

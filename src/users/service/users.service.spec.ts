@@ -21,6 +21,14 @@ describe(`Users Service`, () => {
     usersService = moduleRef.get(UsersService);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('Should be defined', () => {
+    expect(usersService).toBeDefined();
+  });
+
   describe('Get user by unique input', () => {
     const mockedUser: User = {
       id: 1,

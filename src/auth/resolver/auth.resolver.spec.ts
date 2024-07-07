@@ -7,7 +7,7 @@ import { AuthResolver } from './auth.resolver';
 import { AuthService } from '@/auth/service/auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { UsersRepository } from '@/users/repository/users.repository';
-import { PrismaService } from '@/database/prisma.service';
+import { PrismaService } from '@/database/service/prisma.service';
 
 describe(`Auth Resolver`, () => {
   let mockedAuthService: AuthService;

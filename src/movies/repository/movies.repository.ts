@@ -1,16 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import type { Movie, Prisma } from '@prisma/client';
 
-import { PrismaService } from '@/database/prisma.service';
+import { PrismaService } from '@/database/service/prisma.service';
 
 @Injectable()
 export class MoviesRepository {
   constructor(private prisma: PrismaService) {}
-
-  async createMovie(params: { data: Prisma.MovieCreateInput }): Promise<Movie> {
-    const { data } = params;
-    return this.prisma.movie.create({ data });
-  }
 
   async getMovies(params: {
     skip?: number;
@@ -27,6 +22,18 @@ export class MoviesRepository {
       where,
       orderBy,
     });
+  }
+
+  async getMovieByUniqueInput(params: {
+    where: Prisma.MovieWhereUniqueInput;
+  }): Promise<Movie> {
+    const { where } = params;
+    return this.prisma.movie.findUnique({ where });
+  }
+
+  async createMovie(params: { data: Prisma.MovieCreateInput }): Promise<Movie> {
+    const { data } = params;
+    return this.prisma.movie.create({ data });
   }
 
   async updateMovie(params: {

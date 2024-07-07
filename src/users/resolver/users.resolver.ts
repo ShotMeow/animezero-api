@@ -14,7 +14,7 @@ export class UsersResolver {
   async updateUser(
     @Args('id') id: number,
     @Args('user') data: UpdateUserInput,
-  ) {
+  ): Promise<User> {
     return this.usersService.updateUser(id, data);
   }
 }
