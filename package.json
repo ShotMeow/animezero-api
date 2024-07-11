@@ -1,6 +1,6 @@
 {
   "name": "animezero-api",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "API release for online anime cinema developed on Nest.js",
   "author": "Kai Goldman",
   "repository": {

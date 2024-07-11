@@ -37,6 +37,7 @@ describe(`Users Resolver`, () => {
         avatarUrl: 'https://animezero.ru/avatarUrl.webp',
         email: 'test@animezero.ru',
         phone: '+79999999999',
+        role: 'user',
         updatedAt: new Date(),
         createdAt: new Date(),
       };
@@ -45,8 +46,8 @@ describe(`Users Resolver`, () => {
       );
 
       const updateUser = (): Promise<User> =>
-        usersResolver.updateUser(1, {
-          email: mockedUser.email,
+        usersResolver.updateUser(mockedUser, {
+          email: 'update@animezero.ru',
         });
 
       await expect(updateUser()).resolves.toBe(mockedUser);

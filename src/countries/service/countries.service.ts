@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import type { Country } from '@prisma/client';
-import { CountriesRepository } from '@/countries/repository/countries.repository';
+
+import { CountriesRepository } from '../repository/countries.repository';
 import {
   CreateCountryInput,
   UpdateCountryInput,

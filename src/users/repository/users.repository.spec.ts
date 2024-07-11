@@ -5,6 +5,7 @@ import { mockDeep } from 'jest-mock-extended';
 import { PrismaService } from '@/database/service/prisma.service';
 import { UsersRepository } from './users.repository';
 import { User } from '../users.model';
+import { Role } from '@/utils/enums';
 
 describe(`Users Repository`, () => {
   let mockedPrismaService: PrismaClient;
@@ -37,6 +38,7 @@ describe(`Users Repository`, () => {
       avatarUrl: 'https://animezero.ru/avatarUrl.webp',
       email: 'test@animezero.ru',
       phone: '+79999999999',
+      role: 'user',
       updatedAt: new Date(),
       createdAt: new Date(),
     };
@@ -96,6 +98,7 @@ describe(`Users Repository`, () => {
         avatarUrl: 'https://animezero.ru/avatarUrl.webp',
         email: 'test@animezero.ru',
         phone: '+79999999999',
+        role: Role.USER,
         updatedAt: new Date(),
         createdAt: new Date(),
       };
@@ -124,6 +127,7 @@ describe(`Users Repository`, () => {
         avatarUrl: 'https://animezero.ru/avatarUrl.webp',
         email: 'test@animezero.ru',
         phone: '+79999999999',
+        role: Role.USER,
         updatedAt: new Date(),
         createdAt: new Date(),
       };

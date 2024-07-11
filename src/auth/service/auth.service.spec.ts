@@ -7,6 +7,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '@/users/service/users.service';
 import type { User } from '@/users/users.model';
 import { AuthService } from './auth.service';
+import { Role } from '@/utils/enums';
 
 jest.mock('bcrypt');
 
@@ -39,6 +40,7 @@ describe(`Auth Service`, () => {
       avatarUrl: 'https://animezero.ru/avatarUrl.webp',
       email: 'test@animezero.ru',
       phone: '+79999999999',
+      role: 'user',
       updatedAt: new Date(),
       createdAt: new Date(),
     };
@@ -63,6 +65,7 @@ describe(`Auth Service`, () => {
       avatarUrl: 'https://animezero.ru/avatarUrl.webp',
       email: 'test@animezero.ru',
       phone: '+79999999999',
+      role: Role.USER,
       updatedAt: new Date(),
       createdAt: new Date(),
     };
@@ -122,6 +125,7 @@ describe(`Auth Service`, () => {
       avatarUrl: 'https://animezero.ru/avatarUrl.webp',
       email: 'test@animezero.ru',
       phone: '+79999999999',
+      role: Role.USER,
       updatedAt: new Date(),
       createdAt: new Date(),
     };

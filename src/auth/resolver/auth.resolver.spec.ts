@@ -8,6 +8,7 @@ import { AuthService } from '@/auth/service/auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { UsersRepository } from '@/users/repository/users.repository';
 import { PrismaService } from '@/database/service/prisma.service';
+import { Role } from '@/utils/enums';
 
 describe(`Auth Resolver`, () => {
   let mockedAuthService: AuthService;
@@ -39,6 +40,7 @@ describe(`Auth Resolver`, () => {
       avatarUrl: 'https://animezero.ru/avatarUrl.webp',
       email: 'test@animezero.ru',
       phone: '+79999999999',
+      role: Role.USER,
       updatedAt: new Date(),
       createdAt: new Date(),
     };

@@ -16,6 +16,9 @@ export class User extends BaseModel {
 
   @Field(() => String, { nullable: true })
   phone?: UserModel['phone'];
+
+  @Field(() => String, { nullable: true })
+  role: UserModel['role'];
 }
 
 @InputType()

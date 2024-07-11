@@ -1,6 +1,11 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { TagsService } from '@/tags/service/tags.service';
 import { CreateTagInput, Tag, UpdateTagInput } from '../tags.model';
+import { UseGuards } from '@nestjs/common';
+import { GqlAuthGuard } from '@/auth/guards/gqlAuth.guard';
+import { RolesGuard } from '@/auth/guards/roles.guard';
+import { Roles } from '@/auth/decorators/roles.decorator';
+import { Role } from '@/utils/enums';
 
 @Resolver()
 export class TagsResolver {
@@ -17,11 +22,15 @@ export class TagsResolver {
   }
 
   @Mutation(() => Tag)
+  @UseGuards(GqlAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.OWNER)
   async createTag(@Args('tag') data: CreateTagInput): Promise<Tag> {
     return this.tagsService.createTag(data);
   }
 
   @Mutation(() => Tag)
+  @UseGuards(GqlAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.OWNER)
   async updateTag(
     @Args('id') id: number,
     @Args('tag') data: UpdateTagInput,
@@ -30,6 +39,8 @@ export class TagsResolver {
   }
 
   @Mutation(() => Tag)
+  @UseGuards(GqlAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.OWNER)
   async deleteTag(@Args('id') id: number): Promise<Tag> {
     return this.tagsService.deleteTag(id);
   }

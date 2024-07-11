@@ -1,10 +1,16 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { CountriesService } from '@/countries/service/countries.service';
+
+import { CountriesService } from '../service/countries.service';
 import {
   Country,
   CreateCountryInput,
   UpdateCountryInput,
-} from '@/countries/countries.model';
+} from '../countries.model';
+import { UseGuards } from '@nestjs/common';
+import { GqlAuthGuard } from '@/auth/guards/gqlAuth.guard';
+import { Roles } from '@/auth/decorators/roles.decorator';
+import { Role } from '@/utils/enums';
+import { RolesGuard } from '@/auth/guards/roles.guard';
 
 @Resolver()
 export class CountriesResolver {
@@ -21,6 +27,8 @@ export class CountriesResolver {
   }
 
   @Mutation(() => Country)
+  @UseGuards(GqlAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.OWNER)
   async createCountry(
     @Args('country') data: CreateCountryInput,
   ): Promise<Country> {
@@ -28,6 +36,8 @@ export class CountriesResolver {
   }
 
   @Mutation(() => Country)
+  @UseGuards(GqlAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.OWNER)
   async updateCountry(
     @Args('id') id: number,
     @Args('country') data: UpdateCountryInput,
@@ -36,6 +46,8 @@ export class CountriesResolver {
   }
 
   @Mutation(() => Country)
+  @UseGuards(GqlAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.OWNER)
   async deleteCountry(@Args('id') id: number): Promise<Country> {
     return this.countriesService.deleteCountry(id);
   }

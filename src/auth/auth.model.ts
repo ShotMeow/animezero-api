@@ -16,6 +16,6 @@ export class SignUpInput extends CreateUserInput {}
 
 @ObjectType()
 export class Response {
-  @Field(() => String, { nullable: true })
-  token?: string;
+  @Field(() => String)
+  token: string;
 }

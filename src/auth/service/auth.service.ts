@@ -26,6 +26,7 @@ export class AuthService {
     if (!user) {
       throw new NotFoundException('Неверный E-mail или пароль');
     }
+
     const isPasswordValid = await bcrypt.compare(data.password, user.password);
 
     if (!isPasswordValid) {
@@ -33,7 +34,11 @@ export class AuthService {
     }
 
     return {
-      token: this.jwtService.sign({ userId: user.id, name: user.name }),
+      token: this.jwtService.sign({
+        userId: user.id,
+        name: user.name,
+        role: user.role,
+      }),
     };
   }
 
@@ -43,7 +48,11 @@ export class AuthService {
     const user = await this.usersService.createUser(data);
 
     return {
-      token: this.jwtService.sign({ userId: user.id, name: user.name }),
+      token: this.jwtService.sign({
+        userId: user.id,
+        name: user.name,
+        role: user.role,
+      }),
     };
   }
 }

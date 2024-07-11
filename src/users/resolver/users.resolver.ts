@@ -4,6 +4,7 @@ import { GqlAuthGuard } from '@/auth/guards/gqlAuth.guard';
 
 import { UpdateUserInput, User } from '../users.model';
 import { UsersService } from '../service/users.service';
+import { AuthUser } from '@/auth/decorators/user.decorator';
 
 @Resolver()
 export class UsersResolver {
@@ -12,9 +13,9 @@ export class UsersResolver {
   @Mutation(() => User)
   @UseGuards(GqlAuthGuard)
   async updateUser(
-    @Args('id') id: number,
+    @AuthUser() user: User,
     @Args('user') data: UpdateUserInput,
   ): Promise<User> {
-    return this.usersService.updateUser(id, data);
+    return this.usersService.updateUser(user.id, data);
   }
 }

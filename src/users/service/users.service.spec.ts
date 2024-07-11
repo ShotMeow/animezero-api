@@ -4,6 +4,7 @@ import { mockDeep } from 'jest-mock-extended';
 import { UsersRepository } from '../repository/users.repository';
 import { User } from '../users.model';
 import { UsersService } from './users.service';
+import { Role } from '@/utils/enums';
 
 describe(`Users Service`, () => {
   let mockedUsersRepository: UsersRepository;
@@ -36,6 +37,7 @@ describe(`Users Service`, () => {
       avatarUrl: 'https://animezero.ru/avatarUrl.webp',
       email: 'test@animezero.ru',
       phone: '+79999999999',
+      role: 'user',
       updatedAt: new Date(),
       createdAt: new Date(),
     };
@@ -69,6 +71,7 @@ describe(`Users Service`, () => {
         avatarUrl: 'https://animezero.ru/avatarUrl.webp',
         email: 'test@animezero.ru',
         phone: '+79999999999',
+        role: 'user',
         updatedAt: new Date(),
         createdAt: new Date(),
       };
@@ -94,6 +97,7 @@ describe(`Users Service`, () => {
         avatarUrl: 'https://animezero.ru/avatarUrl.webp',
         email: 'test@animezero.ru',
         phone: '+79999999999',
+        role: Role.USER,
         updatedAt: new Date(),
         createdAt: new Date(),
       };
