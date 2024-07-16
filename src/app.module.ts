@@ -7,6 +7,7 @@ import { AppController } from '@/app.controller';
 import { CountriesModule } from './countries/countries.module';
 import { TagsModule } from './tags/tags.module';
 import { GenresModule } from '@/genres/genres.module';
+import { WebsocketModule } from '@/websocket/websocket.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { GenresModule } from '@/genres/genres.module';
     CountriesModule,
     TagsModule,
     GenresModule,
+    WebsocketModule,
   ],
   controllers: [AppController],
   providers: [],
