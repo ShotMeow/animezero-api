@@ -38,6 +38,7 @@ export class AuthService {
       token: this.jwtService.sign({
         userId: user.id,
         name: user.name,
+        avatarUrl: user.avatarUrl,
         role: user.role,
       }),
     };
@@ -58,6 +59,7 @@ export class AuthService {
       token: this.jwtService.sign({
         userId: user.id,
         name: user.name,
+        avatarUrl: user.avatarUrl,
         role: user.role,
       }),
     };
