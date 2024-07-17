@@ -3,6 +3,7 @@ import type { User } from '@prisma/client';
 
 import { CreateUserInput, UpdateUserInput } from '../users.model';
 import { UsersRepository } from '../repository/users.repository';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -21,6 +22,10 @@ export class UsersService {
   }
 
   async updateUser(id: number, data: UpdateUserInput): Promise<User> {
+    if (data.password) {
+      data.password = await bcrypt.hash(data.password, 10);
+    }
+
     return this.repository.updateUser({ where: { id }, data });
   }
 }

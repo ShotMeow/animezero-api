@@ -70,7 +70,7 @@ describe(`Genres Repository`, () => {
     });
   });
 
-  describe('Get Genre', () => {
+  describe('Get genre', () => {
     it('Should get a list of genres', async () => {
       const mockedGenresList: Genre[] = [
         {
@@ -112,7 +112,9 @@ describe(`Genres Repository`, () => {
 
       const createGenre = (): Promise<Genre> =>
         genresRepository.createGenre({
-          data: mockedGenre,
+          data: {
+            name: mockedGenre.name,
+          },
         });
 
       await expect(createGenre()).resolves.toBe(mockedGenre);
@@ -134,7 +136,9 @@ describe(`Genres Repository`, () => {
       const updateGenre = (): Promise<Genre> =>
         genresRepository.updateGenre({
           where: { id: 1 },
-          data: mockedGenre,
+          data: {
+            name: mockedGenre.name,
+          },
         });
 
       await expect(updateGenre()).resolves.toBe(mockedGenre);

@@ -48,7 +48,7 @@ describe(`Countries Resolver`, () => {
     });
   });
 
-  describe('Get Countries', () => {
+  describe('Get countries', () => {
     it('Should get a list of Countries', async () => {
       const mockedCountriesList: Country[] = [
         {
@@ -87,7 +87,7 @@ describe(`Countries Resolver`, () => {
       );
 
       const createCountry = (): Promise<Country> =>
-        countriesResolver.createCountry(mockedCountry);
+        countriesResolver.createCountry({ name: mockedCountry.name });
 
       await expect(createCountry()).resolves.toBe(mockedCountry);
     });
@@ -106,7 +106,7 @@ describe(`Countries Resolver`, () => {
       );
 
       const updateCountry = (): Promise<Country> =>
-        countriesResolver.updateCountry(1, mockedCountry);
+        countriesResolver.updateCountry(1, { name: mockedCountry.name });
 
       await expect(updateCountry()).resolves.toBe(mockedCountry);
     });

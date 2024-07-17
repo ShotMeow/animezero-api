@@ -47,7 +47,7 @@ describe(`Genres Resolver`, () => {
     });
   });
 
-  describe('Get Genres', () => {
+  describe('Get genres', () => {
     it('Should get a list of Genres', async () => {
       const mockedGenresList: Genre[] = [
         {
@@ -86,7 +86,9 @@ describe(`Genres Resolver`, () => {
       );
 
       const createGenre = (): Promise<Genre> =>
-        genresResolver.createGenre(mockedGenre);
+        genresResolver.createGenre({
+          name: mockedGenre.name,
+        });
 
       await expect(createGenre()).resolves.toBe(mockedGenre);
     });
@@ -105,7 +107,7 @@ describe(`Genres Resolver`, () => {
       );
 
       const updateGenre = (): Promise<Genre> =>
-        genresResolver.updateGenre(1, mockedGenre);
+        genresResolver.updateGenre(1, { name: mockedGenre.name });
 
       await expect(updateGenre()).resolves.toBe(mockedGenre);
     });

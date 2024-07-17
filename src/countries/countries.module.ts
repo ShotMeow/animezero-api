@@ -9,5 +9,6 @@ import { CountriesRepository } from './repository/countries.repository';
 @Module({
   imports: [PrismaModule],
   providers: [CountriesRepository, CountriesResolver, CountriesService],
+  exports: [CountriesService],
 })
 export class CountriesModule {}

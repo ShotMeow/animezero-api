@@ -1,5 +1,6 @@
 import { Test } from '@nestjs/testing';
 import { mockDeep } from 'jest-mock-extended';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 
 import { CountriesRepository } from '../repository/countries.repository';
 import { CountriesService } from './countries.service';
@@ -30,6 +31,13 @@ describe(`Countries Service`, () => {
   });
 
   describe('Get country by unique input', () => {
+    it('Should get a not found error', async () => {
+      const getCountryById = (): Promise<Country> =>
+        countriesService.getCountryById(1);
+
+      await expect(getCountryById()).rejects.toThrow(NotFoundException);
+    });
+
     it('Should get a country by id', async () => {
       const mockedCountry: Country = {
         id: 1,
@@ -48,7 +56,7 @@ describe(`Countries Service`, () => {
     });
   });
 
-  describe('Get Countries', () => {
+  describe('Get countries', () => {
     it('Should get a list of Countries', async () => {
       const mockedCountriesList: Country[] = [
         {
@@ -75,6 +83,25 @@ describe(`Countries Service`, () => {
   });
 
   describe('Create country', () => {
+    it('Should get a bad request error', async () => {
+      const mockedCountry: Country = {
+        id: 1,
+        name: 'Russia',
+        updatedAt: new Date(),
+        createdAt: new Date(),
+      };
+      (
+        mockedCountriesRepository.getCountryByUniqueInput as jest.Mock
+      ).mockResolvedValue(mockedCountry);
+
+      const createCountry = (): Promise<Country> =>
+        countriesService.createCountry({
+          name: mockedCountry.name,
+        });
+
+      await expect(createCountry()).rejects.toThrow(BadRequestException);
+    });
+
     it('Should create a new country', async () => {
       const mockedCountry: Country = {
         id: 1,
@@ -87,13 +114,30 @@ describe(`Countries Service`, () => {
       );
 
       const createCountry = (): Promise<Country> =>
-        countriesService.createCountry(mockedCountry);
+        countriesService.createCountry({ name: mockedCountry.name });
 
       await expect(createCountry()).resolves.toBe(mockedCountry);
     });
   });
 
   describe('Update country', () => {
+    it('Should get a bad request error', async () => {
+      const mockedCountry: Country = {
+        id: 1,
+        name: 'Russia',
+        updatedAt: new Date(),
+        createdAt: new Date(),
+      };
+      (
+        mockedCountriesRepository.getCountryByUniqueInput as jest.Mock
+      ).mockResolvedValue(mockedCountry);
+
+      const updateCountry = (): Promise<Country> =>
+        countriesService.updateCountry(1, { name: mockedCountry.name });
+
+      await expect(updateCountry()).rejects.toThrow(BadRequestException);
+    });
+
     it('Should update a country', async () => {
       const mockedCountry: Country = {
         id: 1,
@@ -106,7 +150,7 @@ describe(`Countries Service`, () => {
       );
 
       const updateCountry = (): Promise<Country> =>
-        countriesService.updateCountry(1, mockedCountry);
+        countriesService.updateCountry(1, { name: mockedCountry.name });
 
       await expect(updateCountry()).resolves.toBe(mockedCountry);
     });

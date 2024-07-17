@@ -74,28 +74,52 @@ model FavoriteMovie {
 }
 
 model Movie {
-  id          Int       @id @default(autoincrement())
-  title       String    @unique
-  description String
-  videoUrl    String    @map("video_url")
-  pictureUrl  String    @map("picture_url")
-  ageRating   String?   @map("age_rating")
-  rating      Float?
-  status      String?
-  countryId   Int?      @map("country_id")
-  year        Int?
-  type        String
-  updatedAt   DateTime? @updatedAt @map("updated_at")
-  createdAt   DateTime  @default(now()) @map("created_at")
+  id           Int       @id @default(autoincrement())
+  title        String    @unique
+  description  String
+  pictureUrl   String    @map("picture_url")
+  wallpaperUrl String    @map("wallpaper_url")
+  ageRating    String?   @map("age_rating")
+  rating       Float?
+  status       String?
+  countryId    Int       @map("country_id")
+  year         Int?
+  type         String
+  updatedAt    DateTime? @updatedAt @map("updated_at")
+  createdAt    DateTime  @default(now()) @map("created_at")
 
+  episodes             Episode[]
   tags                 TagsOnMovies[]
   genres               GenresOnMovies[]
-  country              Country?              @relation(fields: [countryId], references: [id])
+  country              Country               @relation(fields: [countryId], references: [id])
   recentlyViewedMovies RecentlyViewedMovie[]
   viewedMovies         ViewedMovie[]
   favoriteMovies       FavoriteMovie[]
 
   @@map("movies")
+}
+
+model Episode {
+  id          Int       @id @default(autoincrement())
+  movieId     Int
+  name        String    @unique
+  description String
+  videoUrl    String    @map("video_url")
+  voiceover   String
+  episode     Int?
+  season      Int?
+  updatedAt   DateTime? @updatedAt @map("updated_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  openingStart String @map("opening_start")
+  openingEnd   String @map("opening_end")
+
+  endingStart String  @map("ending_start")
+  endingEnd   String? @map("ending_end")
+
+  movie Movie? @relation(fields: [movieId], references: [id])
+
+  @@map("episodes")
 }
 
 // Tags

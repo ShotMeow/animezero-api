@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -44,6 +45,12 @@ export class AuthService {
 
   async signUp(data: SignUpInput) {
     data.password = await bcrypt.hash(data.password, 10);
+
+    const existedUser = await this.usersService.getUserByName(data.name);
+
+    if (existedUser) {
+      throw new BadRequestException('Такой пользователь уже существует.');
+    }
 
     const user = await this.usersService.createUser(data);
 

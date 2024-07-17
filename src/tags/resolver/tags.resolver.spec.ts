@@ -45,7 +45,7 @@ describe(`Tags Resolver`, () => {
     });
   });
 
-  describe('Get Tags', () => {
+  describe('Get tags', () => {
     it('Should get a list of Tags', async () => {
       const mockedTagsList: Tag[] = [
         {
@@ -79,7 +79,10 @@ describe(`Tags Resolver`, () => {
       };
       (mockedTagsService.createTag as jest.Mock).mockResolvedValue(mockedTag);
 
-      const createTag = (): Promise<Tag> => tagsResolver.createTag(mockedTag);
+      const createTag = (): Promise<Tag> =>
+        tagsResolver.createTag({
+          name: 'Top-100',
+        });
 
       await expect(createTag()).resolves.toBe(mockedTag);
     });
@@ -96,7 +99,7 @@ describe(`Tags Resolver`, () => {
       (mockedTagsService.updateTag as jest.Mock).mockResolvedValue(mockedTag);
 
       const updateTag = (): Promise<Tag> =>
-        tagsResolver.updateTag(1, mockedTag);
+        tagsResolver.updateTag(1, { name: 'Top-100' });
 
       await expect(updateTag()).resolves.toBe(mockedTag);
     });

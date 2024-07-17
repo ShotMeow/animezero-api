@@ -70,7 +70,7 @@ describe(`Countries Repository`, () => {
     });
   });
 
-  describe('Get Country', () => {
+  describe('Get country', () => {
     it('Should get a list of countries', async () => {
       const mockedCountriesList: Country[] = [
         {
@@ -112,7 +112,7 @@ describe(`Countries Repository`, () => {
 
       const createCountry = (): Promise<Country> =>
         countriesRepository.createCountry({
-          data: mockedCountry,
+          data: { name: mockedCountry.name },
         });
 
       await expect(createCountry()).resolves.toBe(mockedCountry);
@@ -134,7 +134,7 @@ describe(`Countries Repository`, () => {
       const updateCountry = (): Promise<Country> =>
         countriesRepository.updateCountry({
           where: { id: 1 },
-          data: mockedCountry,
+          data: { name: mockedCountry.name },
         });
 
       await expect(updateCountry()).resolves.toBe(mockedCountry);

@@ -70,7 +70,7 @@ describe(`Tags Repository`, () => {
     });
   });
 
-  describe('Get Tag', () => {
+  describe('Get tags', () => {
     it('Should get a list of tags', async () => {
       const mockedTagsList: Tag[] = [
         {
@@ -112,7 +112,9 @@ describe(`Tags Repository`, () => {
 
       const createTag = (): Promise<Tag> =>
         tagsRepository.createTag({
-          data: mockedTag,
+          data: {
+            name: 'Top-100',
+          },
         });
 
       await expect(createTag()).resolves.toBe(mockedTag);
@@ -134,7 +136,9 @@ describe(`Tags Repository`, () => {
       const updateTag = (): Promise<Tag> =>
         tagsRepository.updateTag({
           where: { id: 1 },
-          data: mockedTag,
+          data: {
+            name: 'Top-100',
+          },
         });
 
       await expect(updateTag()).resolves.toBe(mockedTag);

@@ -12,10 +12,10 @@ export class Movie extends BaseModel {
   description: MovieModel['description'];
 
   @Field(() => String)
-  videoUrl: MovieModel['videoUrl'];
+  pictureUrl: MovieModel['pictureUrl'];
 
   @Field(() => String)
-  pictureUrl: MovieModel['pictureUrl'];
+  wallpaperUrl: MovieModel['wallpaperUrl'];
 
   @Field(() => String, { nullable: true })
   ageRating?: MovieModel['ageRating'];
@@ -26,8 +26,8 @@ export class Movie extends BaseModel {
   @Field(() => String, { nullable: true })
   status?: MovieModel['status'];
 
-  @Field(() => Int, { nullable: true })
-  countryId?: MovieModel['countryId'];
+  @Field(() => Int)
+  countryId: MovieModel['countryId'];
 
   @Field(() => Int, { nullable: true })
   year?: MovieModel['year'];
@@ -45,7 +45,7 @@ export class CreateMovieInput {
   description: MovieModel['description'];
 
   @Field(() => String)
-  videoUrl: MovieModel['videoUrl'];
+  wallpaperUrl: MovieModel['wallpaperUrl'];
 
   @Field(() => String)
   pictureUrl: MovieModel['pictureUrl'];
@@ -59,8 +59,8 @@ export class CreateMovieInput {
   @Field(() => String, { nullable: true })
   status?: MovieModel['status'];
 
-  @Field(() => Int, { nullable: true })
-  countryId?: MovieModel['countryId'];
+  @Field(() => Int)
+  countryId: MovieModel['countryId'];
 
   @Field(() => Int, { nullable: true })
   year?: MovieModel['year'];
@@ -78,7 +78,7 @@ export class UpdateMovieInput {
   description?: MovieModel['description'];
 
   @Field(() => String, { nullable: true })
-  videoUrl?: MovieModel['videoUrl'];
+  wallpaperUrl?: MovieModel['wallpaperUrl'];
 
   @Field(() => String, { nullable: true })
   pictureUrl?: MovieModel['pictureUrl'];

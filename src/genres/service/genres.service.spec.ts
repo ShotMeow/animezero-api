@@ -1,5 +1,6 @@
 import { Test } from '@nestjs/testing';
 import { mockDeep } from 'jest-mock-extended';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 
 import { GenresRepository } from '../repository/genres.repository';
 import { GenresService } from './genres.service';
@@ -30,6 +31,12 @@ describe(`Genres Service`, () => {
   });
 
   describe('Get genre by unique input', () => {
+    it('Should get a not found error', async () => {
+      const getGenreById = (): Promise<Genre> => genresService.getGenreById(1);
+
+      await expect(getGenreById()).rejects.toThrow(NotFoundException);
+    });
+
     it('Should get a genre by id', async () => {
       const mockedGenre: Genre = {
         id: 1,
@@ -47,7 +54,7 @@ describe(`Genres Service`, () => {
     });
   });
 
-  describe('Get Genres', () => {
+  describe('Get genres', () => {
     it('Should get a list of Genres', async () => {
       const mockedGenresList: Genre[] = [
         {
@@ -74,6 +81,25 @@ describe(`Genres Service`, () => {
   });
 
   describe('Create genre', () => {
+    it('Should get a bad request error', async () => {
+      const mockedGenre: Genre = {
+        id: 1,
+        name: 'Comedy',
+        updatedAt: new Date(),
+        createdAt: new Date(),
+      };
+      (
+        mockedGenresRepository.getGenreByUniqueInput as jest.Mock
+      ).mockResolvedValue(mockedGenre);
+
+      const createGenre = (): Promise<Genre> =>
+        genresService.createGenre({
+          name: mockedGenre.name,
+        });
+
+      await expect(createGenre()).rejects.toThrow(BadRequestException);
+    });
+
     it('Should create a new genre', async () => {
       const mockedGenre: Genre = {
         id: 1,
@@ -86,13 +112,32 @@ describe(`Genres Service`, () => {
       );
 
       const createGenre = (): Promise<Genre> =>
-        genresService.createGenre(mockedGenre);
+        genresService.createGenre({
+          name: 'Comedy',
+        });
 
       await expect(createGenre()).resolves.toBe(mockedGenre);
     });
   });
 
   describe('Update genre', () => {
+    it('Should get a bad request error', async () => {
+      const mockedGenre: Genre = {
+        id: 1,
+        name: 'Comedy',
+        updatedAt: new Date(),
+        createdAt: new Date(),
+      };
+      (
+        mockedGenresRepository.getGenreByUniqueInput as jest.Mock
+      ).mockResolvedValue(mockedGenre);
+
+      const updateGenre = (): Promise<Genre> =>
+        genresService.updateGenre(1, { name: mockedGenre.name });
+
+      await expect(updateGenre()).rejects.toThrow(BadRequestException);
+    });
+
     it('Should update a genre', async () => {
       const mockedGenre: Genre = {
         id: 1,

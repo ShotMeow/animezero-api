@@ -1,5 +1,6 @@
 import { Test } from '@nestjs/testing';
 import { mockDeep } from 'jest-mock-extended';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 
 import { TagsRepository } from '../repository/tags.repository';
 import { TagsService } from './tags.service';
@@ -30,6 +31,12 @@ describe(`Tags Service`, () => {
   });
 
   describe('Get tag by unique input', () => {
+    it('Should get a not found error', async () => {
+      const getTagById = (): Promise<Tag> => tagsService.getTagById(1);
+
+      await expect(getTagById()).rejects.toThrow(NotFoundException);
+    });
+
     it('Should get a tag by id', async () => {
       const mockedTag: Tag = {
         id: 1,
@@ -47,7 +54,7 @@ describe(`Tags Service`, () => {
     });
   });
 
-  describe('Get Tags', () => {
+  describe('Get tags', () => {
     it('Should get a list of Tags', async () => {
       const mockedTagsList: Tag[] = [
         {
@@ -72,6 +79,25 @@ describe(`Tags Service`, () => {
   });
 
   describe('Create tag', () => {
+    it('Should get a bad request error', async () => {
+      const mockedTag: Tag = {
+        id: 1,
+        name: 'Top-100',
+        updatedAt: new Date(),
+        createdAt: new Date(),
+      };
+      (mockedTagsRepository.getTagByUniqueInput as jest.Mock).mockResolvedValue(
+        mockedTag,
+      );
+
+      const createTag = (): Promise<Tag> =>
+        tagsService.createTag({
+          name: mockedTag.name,
+        });
+
+      await expect(createTag()).rejects.toThrow(BadRequestException);
+    });
+
     it('Should create a new tag', async () => {
       const mockedTag: Tag = {
         id: 1,
@@ -83,13 +109,33 @@ describe(`Tags Service`, () => {
         mockedTag,
       );
 
-      const createTag = (): Promise<Tag> => tagsService.createTag(mockedTag);
+      const createTag = (): Promise<Tag> =>
+        tagsService.createTag({ name: mockedTag.name });
 
       await expect(createTag()).resolves.toBe(mockedTag);
     });
   });
 
   describe('Update tag', () => {
+    it('Should get a bad request error', async () => {
+      const mockedTag: Tag = {
+        id: 1,
+        name: 'Top-100',
+        updatedAt: new Date(),
+        createdAt: new Date(),
+      };
+      (mockedTagsRepository.getTagByUniqueInput as jest.Mock).mockResolvedValue(
+        mockedTag,
+      );
+
+      const updateTag = (): Promise<Tag> =>
+        tagsService.updateTag(1, {
+          name: mockedTag.name,
+        });
+
+      await expect(updateTag()).rejects.toThrow(BadRequestException);
+    });
+
     it('Should update a tag', async () => {
       const mockedTag: Tag = {
         id: 1,
@@ -101,7 +147,8 @@ describe(`Tags Service`, () => {
         mockedTag,
       );
 
-      const updateTag = (): Promise<Tag> => tagsService.updateTag(1, mockedTag);
+      const updateTag = (): Promise<Tag> =>
+        tagsService.updateTag(1, { name: mockedTag.name });
 
       await expect(updateTag()).resolves.toBe(mockedTag);
     });

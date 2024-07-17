@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 
 import { MoviesRepository } from '../repository/movies.repository';
 import type {
@@ -6,32 +10,99 @@ import type {
   Movie,
   UpdateMovieInput,
 } from '../movies.model';
+import { CountriesService } from '@/countries/service/countries.service';
 
 @Injectable()
 export class MoviesService {
-  constructor(private repository: MoviesRepository) {}
+  constructor(
+    private moviesRepository: MoviesRepository,
+    private countriesService: CountriesService,
+  ) {}
 
   async getMovieById(id: number): Promise<Movie> {
-    return this.repository.getMovieByUniqueInput({
+    const movie = await this.moviesRepository.getMovieByUniqueInput({
       where: {
         id,
       },
     });
+
+    if (!movie) {
+      throw new NotFoundException('Такого фильма не существует.');
+    }
+
+    return movie;
   }
 
   async getMovies(): Promise<Movie[]> {
-    return this.repository.getMovies({});
+    return this.moviesRepository.getMovies({});
   }
 
   async createMovie(data: CreateMovieInput) {
-    return this.repository.createMovie({ data });
+    const existedMovie = await this.moviesRepository.getMovieByUniqueInput({
+      where: {
+        title: data.title,
+      },
+    });
+
+    if (existedMovie) {
+      throw new BadRequestException(`Фильм «${data.title}» уже существует.`);
+    }
+
+    const country = await this.countriesService.getCountryById(data.countryId);
+    if (!country) {
+      throw new NotFoundException(
+        `Страны с идентификатором «${data.countryId}» не существует.`,
+      );
+    }
+
+    delete data.countryId;
+
+    return this.moviesRepository.createMovie({
+      data: {
+        ...data,
+        country: {
+          connect: {
+            id: country.id,
+          },
+        },
+      },
+    });
   }
 
   async updateMovie(id: number, data: UpdateMovieInput) {
-    return this.repository.updateMovie({ where: { id }, data });
+    const existedMovie = await this.moviesRepository.getMovieByUniqueInput({
+      where: {
+        title: data.title,
+      },
+    });
+
+    if (existedMovie) {
+      throw new BadRequestException(`Фильм «${data.title}» уже существует`);
+    }
+
+    const country = await this.countriesService.getCountryById(data.countryId);
+    if (!country) {
+      throw new NotFoundException(
+        `Страны с идентификатором «${data.countryId}» не существует.`,
+      );
+    }
+
+    delete data.countryId;
+
+    return this.moviesRepository.updateMovie({
+      where: { id },
+      data: {
+        ...data,
+        country: {
+          connect: {
+            id: country.id,
+          },
+        },
+      },
+    });
   }
 
   async deleteMovie(id: number) {
-    return this.repository.deleteMovie({ where: { id } });
+    return this.moviesRepository.deleteMovie({ where: { id } });
   }
 }

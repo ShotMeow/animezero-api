@@ -35,7 +35,7 @@ describe(`Movies Resolver`, () => {
         id: 1,
         title: 'Movie title',
         description: 'Movie description',
-        videoUrl: 'https://animezero.ru/videos/videoUrl.mp4',
+        wallpaperUrl: 'https://animezero.ru/videos/wallpaperUrl.mp4',
         pictureUrl: 'https://animezero.ru/videos/pictureUrl.webp',
         ageRating: '6+',
         rating: 9.5,
@@ -56,14 +56,14 @@ describe(`Movies Resolver`, () => {
     });
   });
 
-  describe('Get Movies', () => {
+  describe('Get movies', () => {
     it('Should get a list of Movies', async () => {
       const mockedMoviesList: Movie[] = [
         {
           id: 1,
           title: 'Movie title 1',
           description: 'Movie description',
-          videoUrl: 'https://animezero.ru/videos/videoUrl.mp4',
+          wallpaperUrl: 'https://animezero.ru/videos/wallpaperUrl.mp4',
           pictureUrl: 'https://animezero.ru/videos/pictureUrl.webp',
           ageRating: '6+',
           rating: 9.5,
@@ -78,7 +78,7 @@ describe(`Movies Resolver`, () => {
           id: 2,
           title: 'Movie title 2',
           description: 'Movie description',
-          videoUrl: 'https://animezero.ru/videos/videoUrl.mp4',
+          wallpaperUrl: 'https://animezero.ru/videos/wallpaperUrlTwo.mp4',
           pictureUrl: 'https://animezero.ru/videos/pictureUrl.webp',
           ageRating: '6+',
           rating: 9.5,
@@ -106,7 +106,7 @@ describe(`Movies Resolver`, () => {
         id: 1,
         title: 'Movie title',
         description: 'Movie description',
-        videoUrl: 'https://animezero.ru/videos/videoUrl.mp4',
+        wallpaperUrl: 'https://animezero.ru/videos/wallpaperUrl.mp4',
         pictureUrl: 'https://animezero.ru/videos/pictureUrl.webp',
         ageRating: '6+',
         rating: 9.5,
@@ -122,7 +122,17 @@ describe(`Movies Resolver`, () => {
       );
 
       const createMovie = (): Promise<Movie> =>
-        moviesResolver.createMovie(mockedMovie);
+        moviesResolver.createMovie({
+          title: mockedMovie.title,
+          description: mockedMovie.description,
+          wallpaperUrl: mockedMovie.wallpaperUrl,
+          pictureUrl: mockedMovie.pictureUrl,
+          ageRating: mockedMovie.ageRating,
+          rating: mockedMovie.rating,
+          status: mockedMovie.status,
+          year: mockedMovie.year,
+          type: mockedMovie.type,
+        });
 
       await expect(createMovie()).resolves.toBe(mockedMovie);
     });
@@ -134,7 +144,7 @@ describe(`Movies Resolver`, () => {
         id: 1,
         title: 'Movie title',
         description: 'Movie description',
-        videoUrl: 'https://animezero.ru/videos/videoUrl.mp4',
+        wallpaperUrl: 'https://animezero.ru/videos/wallpaperUrl.mp4',
         pictureUrl: 'https://animezero.ru/videos/pictureUrl.webp',
         ageRating: '6+',
         rating: 9.5,
@@ -150,7 +160,9 @@ describe(`Movies Resolver`, () => {
       );
 
       const updateMovie = (): Promise<Movie> =>
-        moviesResolver.updateMovie(1, mockedMovie);
+        moviesResolver.updateMovie(1, {
+          title: mockedMovie.title,
+        });
 
       await expect(updateMovie()).resolves.toBe(mockedMovie);
     });
@@ -162,7 +174,7 @@ describe(`Movies Resolver`, () => {
         id: 1,
         title: 'Movie title',
         description: 'Movie description',
-        videoUrl: 'https://animezero.ru/videos/videoUrl.mp4',
+        wallpaperUrl: 'https://animezero.ru/videos/wallpaperUrl.mp4',
         pictureUrl: 'https://animezero.ru/videos/pictureUrl.webp',
         ageRating: '6+',
         rating: 9.5,

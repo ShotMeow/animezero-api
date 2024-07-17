@@ -8,6 +8,7 @@ import { CountriesModule } from './countries/countries.module';
 import { TagsModule } from './tags/tags.module';
 import { GenresModule } from '@/genres/genres.module';
 import { WebsocketModule } from '@/websocket/websocket.module';
+import { EpisodesModule } from './episodes/episodes.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { WebsocketModule } from '@/websocket/websocket.module';
       autoSchemaFile: true,
     }),
     MoviesModule,
+    EpisodesModule,
     AuthModule,
     CountriesModule,
     TagsModule,

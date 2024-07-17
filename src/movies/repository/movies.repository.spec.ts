@@ -4,7 +4,7 @@ import { mockDeep } from 'jest-mock-extended';
 
 import { PrismaService } from '@/database/service/prisma.service';
 import { MoviesRepository } from './movies.repository';
-import { Movie } from '../movies.model';
+import type { Movie } from '../movies.model';
 
 describe(`Movies Repository`, () => {
   let mockedPrismaService: PrismaClient;
@@ -36,7 +36,7 @@ describe(`Movies Repository`, () => {
         id: 1,
         title: 'Movie title',
         description: 'Movie description',
-        videoUrl: 'https://animezero.ru/videos/videoUrl.mp4',
+        wallpaperUrl: 'https://animezero.ru/videos/wallpaperUrl.mp4',
         pictureUrl: 'https://animezero.ru/videos/pictureUrl.webp',
         ageRating: '6+',
         rating: 9.5,
@@ -64,7 +64,7 @@ describe(`Movies Repository`, () => {
         id: 1,
         title: 'Movie title',
         description: 'Movie description',
-        videoUrl: 'https://animezero.ru/videos/videoUrl.mp4',
+        wallpaperUrl: 'https://animezero.ru/videos/wallpaperUrl.mp4',
         pictureUrl: 'https://animezero.ru/videos/pictureUrl.webp',
         ageRating: '6+',
         rating: 9.5,
@@ -88,14 +88,14 @@ describe(`Movies Repository`, () => {
     });
   });
 
-  describe('Get Movies', () => {
+  describe('Get movies', () => {
     it('Should get a list of Movies', async () => {
       const mockedMoviesList: Movie[] = [
         {
           id: 1,
           title: 'Movie title 1',
           description: 'Movie description',
-          videoUrl: 'https://animezero.ru/videos/videoUrl.mp4',
+          wallpaperUrl: 'https://animezero.ru/videos/wallpaperUrl.mp4',
           pictureUrl: 'https://animezero.ru/videos/pictureUrl.webp',
           ageRating: '6+',
           rating: 9.5,
@@ -110,7 +110,7 @@ describe(`Movies Repository`, () => {
           id: 2,
           title: 'Movie title 2',
           description: 'Movie description',
-          videoUrl: 'https://animezero.ru/videos/videoUrl.mp4',
+          wallpaperUrl: 'https://animezero.ru/videos/wallpaperUrlTwo.mp4',
           pictureUrl: 'https://animezero.ru/videos/pictureUrl.webp',
           ageRating: '6+',
           rating: 9.5,
@@ -140,7 +140,7 @@ describe(`Movies Repository`, () => {
         id: 1,
         title: 'Movie title',
         description: 'Movie description',
-        videoUrl: 'https://animezero.ru/videos/videoUrl.mp4',
+        wallpaperUrl: 'https://animezero.ru/videos/wallpaperUrl.mp4',
         pictureUrl: 'https://animezero.ru/videos/pictureUrl.webp',
         ageRating: '6+',
         rating: 9.5,
@@ -157,7 +157,17 @@ describe(`Movies Repository`, () => {
 
       const createMovie = (): Promise<Movie> =>
         moviesRepository.createMovie({
-          data: mockedMovie,
+          data: {
+            title: mockedMovie.title,
+            description: mockedMovie.description,
+            wallpaperUrl: mockedMovie.wallpaperUrl,
+            pictureUrl: mockedMovie.pictureUrl,
+            ageRating: mockedMovie.ageRating,
+            rating: mockedMovie.rating,
+            status: mockedMovie.status,
+            year: mockedMovie.year,
+            type: mockedMovie.type,
+          },
         });
 
       await expect(createMovie()).resolves.toBe(mockedMovie);
@@ -170,7 +180,7 @@ describe(`Movies Repository`, () => {
         id: 1,
         title: 'Movie title',
         description: 'Movie description',
-        videoUrl: 'https://animezero.ru/videos/videoUrl.mp4',
+        wallpaperUrl: 'https://animezero.ru/videos/wallpaperUrl.mp4',
         pictureUrl: 'https://animezero.ru/videos/pictureUrl.webp',
         ageRating: '6+',
         rating: 9.5,
@@ -188,7 +198,9 @@ describe(`Movies Repository`, () => {
       const updateMovie = (): Promise<Movie> =>
         moviesRepository.updateMovie({
           where: { id: 1 },
-          data: mockedMovie,
+          data: {
+            title: 'Movie title',
+          },
         });
 
       await expect(updateMovie()).resolves.toBe(mockedMovie);
@@ -201,7 +213,7 @@ describe(`Movies Repository`, () => {
         id: 1,
         title: 'Movie title',
         description: 'Movie description',
-        videoUrl: 'https://animezero.ru/videos/videoUrl.mp4',
+        wallpaperUrl: 'https://animezero.ru/videos/wallpaperUrl.mp4',
         pictureUrl: 'https://animezero.ru/videos/pictureUrl.webp',
         ageRating: '6+',
         rating: 9.5,
