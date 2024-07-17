@@ -7,6 +7,7 @@ import { GqlAuthGuard } from '@/auth/guards/gqlAuth.guard';
 import { RolesGuard } from '@/auth/guards/roles.guard';
 import { Roles } from '@/auth/decorators/roles.decorator';
 import { Role } from '@/utils/enums';
+import { Options } from '@/utils/base.model';
 
 @Resolver()
 export class MoviesResolver {
@@ -18,8 +19,10 @@ export class MoviesResolver {
   }
 
   @Query(() => [Movie])
-  async getMovies(): Promise<Movie[]> {
-    return this.moviesService.getMovies();
+  async getMovies(
+    @Args('options', { nullable: true }) options?: Options,
+  ): Promise<Movie[]> {
+    return this.moviesService.getMovies(options);
   }
 
   @Mutation(() => Movie)

@@ -6,6 +6,7 @@ import {
 import type { Genre } from '@prisma/client';
 import { GenresRepository } from '@/genres/repository/genres.repository';
 import { CreateGenreInput, UpdateGenreInput } from '@/genres/genres.model';
+import { Options } from '@/utils/base.model';
 
 @Injectable()
 export class GenresService {
@@ -23,8 +24,15 @@ export class GenresService {
     return genre;
   }
 
-  async getGenres(): Promise<Genre[]> {
-    return this.genresRepository.getGenres({});
+  async getGenres(options: Options): Promise<Genre[]> {
+    const haveOrderBy = options && options.orderBy;
+
+    return this.genresRepository.getGenres({
+      ...options,
+      orderBy: haveOrderBy && {
+        updatedAt: options.orderBy,
+      },
+    });
   }
 
   async createGenre(data: CreateGenreInput): Promise<Genre> {

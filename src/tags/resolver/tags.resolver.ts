@@ -6,6 +6,7 @@ import { GqlAuthGuard } from '@/auth/guards/gqlAuth.guard';
 import { RolesGuard } from '@/auth/guards/roles.guard';
 import { Roles } from '@/auth/decorators/roles.decorator';
 import { Role } from '@/utils/enums';
+import { Options } from '@/utils/base.model';
 
 @Resolver()
 export class TagsResolver {
@@ -17,8 +18,10 @@ export class TagsResolver {
   }
 
   @Query(() => [Tag])
-  async getTags(): Promise<Tag[]> {
-    return this.tagsService.getTags();
+  async getTags(
+    @Args('options', { nullable: true }) options?: Options,
+  ): Promise<Tag[]> {
+    return this.tagsService.getTags(options);
   }
 
   @Mutation(() => Tag)

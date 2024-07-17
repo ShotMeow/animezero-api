@@ -11,6 +11,7 @@ import { GqlAuthGuard } from '@/auth/guards/gqlAuth.guard';
 import { RolesGuard } from '@/auth/guards/roles.guard';
 import { Roles } from '@/auth/decorators/roles.decorator';
 import { Role } from '@/utils/enums';
+import { Options } from '@/utils/base.model';
 
 @Resolver()
 export class EpisodesResolver {
@@ -22,8 +23,10 @@ export class EpisodesResolver {
   }
 
   @Query(() => [Episode])
-  async getEpisodes(): Promise<Episode[]> {
-    return this.episodesService.getEpisodes();
+  async getEpisodes(
+    @Args('options', { nullable: true }) options?: Options,
+  ): Promise<Episode[]> {
+    return this.episodesService.getEpisodes(options);
   }
 
   @Mutation(() => Episode)

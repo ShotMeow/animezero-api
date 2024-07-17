@@ -11,6 +11,7 @@ import type {
   UpdateMovieInput,
 } from '../movies.model';
 import { CountriesService } from '@/countries/service/countries.service';
+import { Options } from '@/utils/base.model';
 
 @Injectable()
 export class MoviesService {
@@ -33,8 +34,14 @@ export class MoviesService {
     return movie;
   }
 
-  async getMovies(): Promise<Movie[]> {
-    return this.moviesRepository.getMovies({});
+  async getMovies(options?: Options): Promise<Movie[]> {
+    const haveOrderBy = options && options.orderBy;
+    return this.moviesRepository.getMovies({
+      ...options,
+      orderBy: haveOrderBy && {
+        updatedAt: options.orderBy,
+      },
+    });
   }
 
   async createMovie(data: CreateMovieInput) {

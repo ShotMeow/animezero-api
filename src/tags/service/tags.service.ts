@@ -6,6 +6,7 @@ import {
 import type { Tag } from '@prisma/client';
 import { TagsRepository } from '@/tags/repository/tags.repository';
 import { CreateTagInput, UpdateTagInput } from '@/tags/tags.model';
+import { Options } from '@/utils/base.model';
 
 @Injectable()
 export class TagsService {
@@ -23,8 +24,15 @@ export class TagsService {
     return tag;
   }
 
-  async getTags(): Promise<Tag[]> {
-    return this.tagsRepository.getTags({});
+  async getTags(options?: Options): Promise<Tag[]> {
+    const haveOrderBy = options && options.orderBy;
+
+    return this.tagsRepository.getTags({
+      ...options,
+      orderBy: haveOrderBy && {
+        updatedAt: options.orderBy,
+      },
+    });
   }
 
   async createTag(data: CreateTagInput): Promise<Tag> {

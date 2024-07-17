@@ -10,6 +10,7 @@ import {
   CreateCountryInput,
   UpdateCountryInput,
 } from '@/countries/countries.model';
+import { Options } from '@/utils/base.model';
 
 @Injectable()
 export class CountriesService {
@@ -27,8 +28,15 @@ export class CountriesService {
     return country;
   }
 
-  async getCountries(): Promise<Country[]> {
-    return this.countriesRepository.getCountries({});
+  async getCountries(options?: Options): Promise<Country[]> {
+    const haveOrderBy = options && options.orderBy;
+
+    return this.countriesRepository.getCountries({
+      ...options,
+      orderBy: haveOrderBy && {
+        updatedAt: options.orderBy,
+      },
+    });
   }
 
   async createCountry(data: CreateCountryInput): Promise<Country> {

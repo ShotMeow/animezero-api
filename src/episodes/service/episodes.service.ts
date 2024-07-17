@@ -10,6 +10,7 @@ import {
   Episode,
   UpdateEpisodeInput,
 } from '../episodes.model';
+import { Options } from '@/utils/base.model';
 
 @Injectable()
 export class EpisodesService {
@@ -29,8 +30,15 @@ export class EpisodesService {
     return episode;
   }
 
-  async getEpisodes(): Promise<Episode[]> {
-    return this.episodesRepository.getEpisodes({});
+  async getEpisodes(options?: Options): Promise<Episode[]> {
+    const haveOrderBy = options && options.orderBy;
+
+    return this.episodesRepository.getEpisodes({
+      ...options,
+      orderBy: haveOrderBy && {
+        updatedAt: options.orderBy,
+      },
+    });
   }
 
   async createEpisode(movieId: number, data: CreateEpisodeInput) {

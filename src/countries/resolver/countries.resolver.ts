@@ -11,6 +11,7 @@ import { GqlAuthGuard } from '@/auth/guards/gqlAuth.guard';
 import { Roles } from '@/auth/decorators/roles.decorator';
 import { Role } from '@/utils/enums';
 import { RolesGuard } from '@/auth/guards/roles.guard';
+import { Options } from '@/utils/base.model';
 
 @Resolver()
 export class CountriesResolver {
@@ -22,8 +23,10 @@ export class CountriesResolver {
   }
 
   @Query(() => [Country])
-  async getCountries(): Promise<Country[]> {
-    return this.countriesService.getCountries();
+  async getCountries(
+    @Args('options', { nullable: true }) options?: Options,
+  ): Promise<Country[]> {
+    return this.countriesService.getCountries(options);
   }
 
   @Mutation(() => Country)

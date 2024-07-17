@@ -6,6 +6,7 @@ import { GqlAuthGuard } from '@/auth/guards/gqlAuth.guard';
 import { RolesGuard } from '@/auth/guards/roles.guard';
 import { Roles } from '@/auth/decorators/roles.decorator';
 import { Role } from '@/utils/enums';
+import { Options } from '@/utils/base.model';
 
 @Resolver()
 export class GenresResolver {
@@ -17,8 +18,10 @@ export class GenresResolver {
   }
 
   @Query(() => [Genre])
-  async getGenres(): Promise<Genre[]> {
-    return this.genresService.getGenres();
+  async getGenres(
+    @Args('options', { nullable: true }) options?: Options,
+  ): Promise<Genre[]> {
+    return this.genresService.getGenres(options);
   }
 
   @Mutation(() => Genre)
